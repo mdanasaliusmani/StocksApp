@@ -9,6 +9,7 @@ import android.view.ViewGroup
 import android.view.animation.AccelerateDecelerateInterpolator
 import android.widget.CheckBox
 import android.widget.Toast
+import androidx.core.content.ContextCompat
 import androidx.core.view.children
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.navArgs
@@ -74,6 +75,14 @@ class detailsFragment : Fragment(R.layout.fragment_details) {
                                 tvBetaValue.text = "${stockDetailsResponse.Beta}"
                                 tvDividendYieldValue.text = "${stockDetailsResponse.DividendYield}"
                                 tvProfitMarginValue.text = "${stockDetailsResponse.ProfitMargin}"
+                                if(args.stock.change_percentage!="None")
+                                {
+                                    val percentage = args.stock.change_percentage.toDoubleOrNull() ?: 0.0
+                                    tvPriceChange.setTextColor(
+                                        ContextCompat.getColor(requireContext(),
+                                            if (percentage>0) R.color.accent_green else R.color.accent_red)
+                                    )
+                                }
                             }
 
                         }

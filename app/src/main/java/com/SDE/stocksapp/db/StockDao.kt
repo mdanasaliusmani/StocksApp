@@ -51,4 +51,8 @@ interface StockDao {
     @Query("DELETE FROM WatchlistStockCrossRef WHERE ticker = :ticker")
     suspend fun deleteStockWatchlists(ticker: String)
 
+    @Transaction
+    @Query("DELETE FROM WatchlistStockCrossRef WHERE ticker = :ticker AND watchlistName = :watchlistName")
+    suspend fun deleteStockFromWatchlist(ticker: String, watchlistName: String)
+
 }

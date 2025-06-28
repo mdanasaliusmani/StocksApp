@@ -36,8 +36,8 @@ class StockRepository(
         db.getStockDao().deleteWatchlistStocks(watchlistName)
     }
 
-    suspend fun deleteStockWatchlists(ticker: String) {
-        db.getStockDao().deleteStockWatchlists(ticker)
+    suspend fun deleteStockWatchlists(ticker: String, watchlistName: String) {
+        db.getStockDao().deleteStockFromWatchlist(ticker,watchlistName)
     }
 
     suspend fun getTopGainersLosers() = RetrofitInstance.api.getGainersLosers()

@@ -143,8 +143,8 @@ class StockViewModel(
         repository.deleteWatchlist(watchlist)
     }
 
-    fun deleteStockFromWatchlist(stock: Stock) = viewModelScope.launch {
-        repository.deleteStockWatchlists(stock.ticker)
+    fun deleteStockFromWatchlist(stock: Stock, watchlistName: String) = viewModelScope.launch {
+        repository.deleteStockWatchlists(stock.ticker, watchlistName)
     }
 
 }

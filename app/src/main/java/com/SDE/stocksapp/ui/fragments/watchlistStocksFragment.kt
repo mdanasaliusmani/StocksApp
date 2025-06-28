@@ -68,7 +68,7 @@ class watchlistStocksFragment : Fragment(R.layout.fragment_watchlist_stocks) {
             ) {
                 val position = viewHolder.adapterPosition
                 val stock = stockAdapter.differ.currentList[position]
-                viewModel.deleteStockFromWatchlist(stock)
+                viewModel.deleteStockFromWatchlist(stock,args.watchlistName)
                 Snackbar.make(view, "Successfully deleted stock from watchlist", Snackbar.LENGTH_LONG).apply {
                     setAction("Undo") {
                         viewModel.saveStockIntoWatchlists(stock, listOf(args.watchlistName))

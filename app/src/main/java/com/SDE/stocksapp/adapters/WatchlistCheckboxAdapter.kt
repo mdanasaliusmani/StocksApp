@@ -40,7 +40,7 @@ class WatchlistCheckboxAdapter : RecyclerView.Adapter<WatchlistCheckboxAdapter.W
         val watchlist = differ.currentList[position]
         holder.binding.apply {
             tvWatchlist.text = watchlist.watchlistName
-            root.setOnClickListener {
+            cbWatchlist.setOnClickListener {
                 onItemClickListener?.let { it(watchlist) }
             }
         }
