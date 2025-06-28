@@ -1,7 +1,10 @@
 package com.SDE.stocksapp.api
 
+import com.SDE.stocksapp.models.DailyResponse
 import com.SDE.stocksapp.models.GainerLoserApiResponse
+import com.SDE.stocksapp.models.IntradayResponse
 import com.SDE.stocksapp.models.StockDetailsResponse
+import com.SDE.stocksapp.models.WeeklyResponse
 import com.example.newsapp.util.Constants.Companion.API_KEY
 import retrofit2.Response
 import retrofit2.http.GET
@@ -22,4 +25,24 @@ interface StocksAPI {
         @Query("apikey")
         apiKey: String = API_KEY
     ) : Response<StockDetailsResponse>
+
+    @GET("query?function=TIME_SERIES_INTRADAY")
+    suspend fun getIntraday(
+        @Query("symbol") symbol: String,
+        @Query("interval") interval: String = "5min",
+        @Query("apikey") apiKey: String = API_KEY
+    ): Response<IntradayResponse>
+
+    @GET("query?function=TIME_SERIES_DAILY")
+    suspend fun getDaily(
+        @Query("symbol") symbol: String,
+        @Query("outputsize") outputSize: String = "compact",
+        @Query("apikey") apiKey: String = API_KEY
+    ): Response<DailyResponse>
+
+    @GET("query?function=TIME_SERIES_WEEKLY")
+    suspend fun getWeekly(
+        @Query("symbol") symbol: String,
+        @Query("apikey") apiKey: String = API_KEY
+    ): Response<WeeklyResponse>
 }

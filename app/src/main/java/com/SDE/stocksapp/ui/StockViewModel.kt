@@ -10,13 +10,18 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.viewModelScope
 import com.SDE.stocksapp.StocksApplication
+import com.SDE.stocksapp.models.DailyResponse
 import com.SDE.stocksapp.models.GainerLoserApiResponse
+import com.SDE.stocksapp.models.IntradayResponse
 import com.SDE.stocksapp.models.Stock
 import com.SDE.stocksapp.models.StockDetailsResponse
 import com.SDE.stocksapp.models.Watchlist
 import com.SDE.stocksapp.models.WatchlistStockCrossRef
+import com.SDE.stocksapp.models.WeeklyResponse
 import com.SDE.stocksapp.repository.StockRepository
+import com.example.newsapp.util.Constants
 import com.example.newsapp.util.Resource
+import com.github.mikephil.charting.data.Entry
 import kotlinx.coroutines.launch
 import retrofit2.HttpException
 import retrofit2.Response
@@ -30,6 +35,8 @@ class StockViewModel(
     val topGainersLosers: MutableLiveData<Resource<GainerLoserApiResponse>> = MutableLiveData()
     val stockDetails: MutableLiveData<Resource<StockDetailsResponse>> = MutableLiveData()
     val watchlists: LiveData<List<Watchlist>> = getAllWatchlists()
+    private val _chartData = MutableLiveData<List<Entry>>()
+    val chartData: LiveData<List<Entry>> = _chartData
 
     init {
         getTopGainersLosers()
@@ -51,6 +58,7 @@ class StockViewModel(
                 return Resource.Success(resultResponse)
             }
         }
+        Log.e("ViewModel", "API response body is null despite successful HTTP status. Actual response: ${response.errorBody()?.string() ?: response.raw().toString()}")
         return Resource.Error(response.message())
     }
 
@@ -147,4 +155,41 @@ class StockViewModel(
         repository.deleteStockWatchlists(stock.ticker, watchlistName)
     }
 
+    fun fetchTimeSeries(symbol: String, period: Constants.Companion.TimePeriod) = viewModelScope.launch {
+        val resp = when (period) {
+            Constants.Companion.TimePeriod.ONE_DAY -> repository.getIntraday(symbol)
+            Constants.Companion.TimePeriod.ONE_WEEK, Constants.Companion.TimePeriod.ONE_MONTH,
+            Constants.Companion.TimePeriod.THREE_MONTHS, Constants.Companion.TimePeriod.SIX_MONTHS -> repository.getDaily(symbol)
+            Constants.Companion.TimePeriod.ONE_YEAR -> repository.getWeekly(symbol)
+        }
+        if (resp.isSuccessful) {
+            val entries = when (val body = resp.body()) {
+                is IntradayResponse -> {
+                    body.timeSeries.entries
+                        .sortedBy { it.key }
+                        .mapIndexed { idx, (_, candle) ->
+                            Entry(idx.toFloat(), candle.close.toFloat())
+                        }
+                }
+                is DailyResponse -> {
+                    body.timeSeries.entries
+                        .sortedBy { it.key }
+                        .mapIndexed { idx, (_, candle) ->
+                            Entry(idx.toFloat(), candle.close.toFloat())
+                        }
+                }
+                is WeeklyResponse -> {
+                    body.timeSeries.entries
+                        .sortedBy { it.key }
+                        .mapIndexed { idx, (_, candle) ->
+                            Entry(idx.toFloat(), candle.close.toFloat())
+                        }
+                }
+                else -> emptyList()
+            }
+            _chartData.postValue(entries)
+        } else {
+            Log.e("VM", "TS error: ${resp.errorBody()?.string()}")
+        }
+    }
 }

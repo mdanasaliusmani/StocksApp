@@ -38,7 +38,7 @@ class homeFragment : Fragment(R.layout.fragment_home) {
             when (response) {
                 is Resource.Success -> {
                     response.data?.let { gainersLosersResponse ->
-                        if (gainersLosersResponse.top_gainers.isNotEmpty()) {
+                        if (gainersLosersResponse.top_gainers!=null && gainersLosersResponse.top_gainers.isNotEmpty()) {
                             // convert first 4 topGainer objects from TopGainer to Stock in gainers list
                             gainers = gainersLosersResponse.top_gainers.subList(0, 6).map { topGainer ->
                                 Stock(
@@ -51,8 +51,14 @@ class homeFragment : Fragment(R.layout.fragment_home) {
                                 )
                             } as MutableList<Stock>
                             stockAdapterGainer.differ.submitList(gainers)
+                        } else {
+                            // Handle case where top_gainers is null or empty (e.g., clear the adapter)
+                            stockAdapterGainer.differ.submitList(emptyList())
+                            if (gainersLosersResponse.top_gainers == null) {
+                                Log.w(TAG, "top_gainers list is null in API response.")
+                            }
                         }
-                        if(gainersLosersResponse.top_losers.isNotEmpty()) {
+                        if(gainersLosersResponse.top_losers!=null && gainersLosersResponse.top_losers.isNotEmpty()) {
                             losers = gainersLosersResponse.top_losers.subList(0, 6).map { topLoser ->
                                 Stock(
                                     ticker = topLoser.ticker,
@@ -64,7 +70,18 @@ class homeFragment : Fragment(R.layout.fragment_home) {
                                 )
                             } as MutableList<Stock>
                             stockAdapterLoser.differ.submitList(losers)
+                        } else {
+                            // Handle case where top_losers is null or empty
+                            stockAdapterLoser.differ.submitList(emptyList())
+                            if (gainersLosersResponse.top_losers == null) {
+                                Log.w(TAG, "top_losers list is null in API response.")
+                            }
                         }
+                    } ?: run {
+                        // This block executes if response.data itself is null
+                        Log.e(TAG, "API Response data (GainerLoserApiResponse) is null. Likely due to API limit or parsing error.")
+                        stockAdapterGainer.differ.submitList(emptyList())
+                        stockAdapterLoser.differ.submitList(emptyList())
                     }
                 }
 

@@ -46,4 +46,11 @@ class StockRepository(
 
     fun getWatchlists() = db.getStockDao().getWatchlists()
 
+    suspend fun getIntraday(symbol: String) = RetrofitInstance.api.getIntraday(symbol)
+
+    suspend fun getDaily(symbol: String) = RetrofitInstance.api.getDaily(symbol)
+
+    suspend fun getWeekly(symbol: String) = RetrofitInstance.api.getWeekly(symbol)
+
+
 }

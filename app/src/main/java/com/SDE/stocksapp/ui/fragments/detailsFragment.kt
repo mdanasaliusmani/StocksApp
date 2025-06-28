@@ -29,6 +29,7 @@ import com.SDE.stocksapp.models.Stock
 import com.SDE.stocksapp.models.Watchlist
 import com.SDE.stocksapp.ui.StockViewModel
 import com.SDE.stocksapp.ui.StocksActivity
+import com.example.newsapp.util.Constants
 import com.example.newsapp.util.Resource
 
 class detailsFragment : Fragment(R.layout.fragment_details) {
@@ -77,7 +78,7 @@ class detailsFragment : Fragment(R.layout.fragment_details) {
                                 tvProfitMarginValue.text = "${stockDetailsResponse.ProfitMargin}"
                                 if(args.stock.change_percentage!="None")
                                 {
-                                    val percentage = args.stock.change_percentage.toDoubleOrNull() ?: 0.0
+                                    val percentage = args.stock.change_percentage.substring(0,args.stock.change_percentage.length-1).toDoubleOrNull() ?: 0.0
                                     tvPriceChange.setTextColor(
                                         ContextCompat.getColor(requireContext(),
                                             if (percentage>0) R.color.accent_green else R.color.accent_red)
@@ -103,6 +104,12 @@ class detailsFragment : Fragment(R.layout.fragment_details) {
 
         binding.ivBookmark.setOnClickListener {
             showAddToWatchlistSheet()
+        }
+
+        setupChartButtons()
+        viewModel.chartData.observe(viewLifecycleOwner) { entries ->
+            Log.d(TAG, "Observing ${entries.size} entries")
+            drawChart(entries)
         }
     }
 
@@ -158,4 +165,38 @@ class detailsFragment : Fragment(R.layout.fragment_details) {
             bottomSheetDialog.dismiss()
         }
     }
+
+    private fun setupChartButtons() = binding.run {
+        btn1W.setOnClickListener { viewModel.fetchTimeSeries(args.stock.ticker, Constants.Companion.TimePeriod.ONE_DAY) }
+        btn1M.setOnClickListener { viewModel.fetchTimeSeries(args.stock.ticker, Constants.Companion.TimePeriod.ONE_WEEK) }
+        btn3M.setOnClickListener { viewModel.fetchTimeSeries(args.stock.ticker, Constants.Companion.TimePeriod.ONE_MONTH) }
+        btn6M.setOnClickListener { viewModel.fetchTimeSeries(args.stock.ticker, Constants.Companion.TimePeriod.THREE_MONTHS) }
+        btn1Y.setOnClickListener { viewModel.fetchTimeSeries(args.stock.ticker, Constants.Companion.TimePeriod.ONE_YEAR) }
+    }
+
+    private fun drawChart(entries: List<Entry>) = binding.lineChart.apply {
+        // 1) Clear any old data
+        clear()
+        data?.clearValues()
+
+        // 2) Create your DataSet
+        val dataSet = LineDataSet(entries, "Price")
+            .apply {
+                mode = LineDataSet.Mode.CUBIC_BEZIER        // a smooth curve
+                lineWidth = 2f                             // make it a bit thicker
+                setDrawCircles(false)                      // hide point circles
+                setDrawValues(false)                       // hide value labels
+            }
+
+        // 3) Set up axes & disable description
+        xAxis.position = XAxis.XAxisPosition.BOTTOM
+        axisRight.isEnabled = false
+        description.isEnabled = false
+
+        // 4) Assign data & refresh
+        this.data = LineData(dataSet)
+        animateX(500)
+        invalidate()
+    }
+
 }
