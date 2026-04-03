@@ -3,7 +3,7 @@ package com.SDE.stocksapp.api
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
-import com.example.newsapp.util.Constants.Companion.BASE_URL
+import com.SDE.stocksapp.util.Constants.Companion.BASE_URL
 import retrofit2.converter.gson.GsonConverterFactory
 
 class RetrofitInstance {

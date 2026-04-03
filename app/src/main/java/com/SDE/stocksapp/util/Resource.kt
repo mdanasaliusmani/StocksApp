@@ -1,4 +1,4 @@
-package com.example.newsapp.util
+package com.SDE.stocksapp.util
 
 sealed class Resource<T>(
     val data: T? = null,

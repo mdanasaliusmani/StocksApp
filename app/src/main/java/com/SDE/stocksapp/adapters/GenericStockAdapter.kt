@@ -3,12 +3,16 @@ package com.SDE.stocksapp.adapters
 import android.annotation.SuppressLint
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.AsyncListDiffer
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
+import com.SDE.stocksapp.R
 import com.SDE.stocksapp.databinding.ItemStockCardBinding
 import com.SDE.stocksapp.models.Stock
-import com.bumptech.glide.Glide
+import com.SDE.stocksapp.util.formatPercentage
+import com.SDE.stocksapp.util.formatPrice
+import java.util.Locale
 
 class GenericStockAdapter : RecyclerView.Adapter<GenericStockAdapter.StockViewHolder>() {
 
@@ -43,8 +47,22 @@ class GenericStockAdapter : RecyclerView.Adapter<GenericStockAdapter.StockViewHo
 //            if(stock.urlToImage != null) {
 //                Glide.with(holder.itemView).load(stock.urlToImage).into(ivStockIcon)
 //            }
+            tvStockIconText.text = stock.ticker.take(1).uppercase(Locale.getDefault())
+
             tvStockName.text = stock.ticker
-            tvStockPrice.text = stock.price
+            tvCompanyName.text = stock.ticker // Fallback if name is not in Stock model
+
+            tvStockPrice.text = stock.price.formatPrice()
+            tvStockChange.text = stock.change_percentage.formatPercentage()
+
+            val changePercent = stock.change_percentage.replace("%", "").toDoubleOrNull() ?: 0.0
+            val colorRes = if (changePercent >= 0) {
+                R.color.finance_positive
+            } else {
+                R.color.finance_negative
+            }
+            tvStockChange.setTextColor(ContextCompat.getColor(root.context, colorRes))
+
             root.setOnClickListener {
                 onItemClickListener?.let { it(stock) }
             }

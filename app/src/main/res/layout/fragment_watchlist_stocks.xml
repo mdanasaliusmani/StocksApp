@@ -5,31 +5,35 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/background"
     tools:context=".ui.fragments.watchlistStocksFragment">
 
     <TextView
         android:id="@+id/tvWatchlistName"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:text="WatchlistName"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="24dp"
+        android:textAppearance="?attr/textAppearanceHeadlineMedium"
         android:textStyle="bold"
-        android:textAppearance="@style/TextAppearance.MaterialComponents.Headline5"
+        android:textColor="@color/on_background"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        android:padding="16dp"/>
+        tools:text="Demo 1"/>
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rvWatchlistStocks"
         android:layout_width="0dp"
         android:layout_height="0dp"
+        android:layout_marginTop="16dp"
         android:clipToPadding="false"
-        android:padding="8dp"
-        app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
-        app:spanCount="2"
+        android:paddingBottom="16dp"
+        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
         app:layout_constraintTop_toBottomOf="@id/tvWatchlistName"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"/>
+        app:layout_constraintEnd_toEndOf="parent"
+        tools:listitem="@layout/item_stock_card"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

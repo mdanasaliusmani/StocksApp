@@ -4,556 +4,402 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#F8F8F8"
+    android:background="@color/background"
     android:fillViewport="true"
     tools:context=".ui.fragments.detailsFragment">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="wrap_content"
+        android:paddingBottom="32dp">
 
-        <!-- Header Group -->
-        <androidx.constraintlayout.widget.Group
-            android:id="@+id/headerGroup"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            app:constraint_referenced_ids="tvDetailsScreen,ivBookmark" />
-
-        <!-- Details Screen Title -->
+        <!-- Toolbar Header -->
         <TextView
             android:id="@+id/tvDetailsScreen"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
-            android:fontFamily="@font/sf_pro_display_semibold"
-            android:text="Details Screen"
-            android:textColor="#000000"
-            android:textSize="22sp"
+            android:text="Stock Details"
+            android:textColor="@color/on_background"
+            android:textSize="18sp"
+            android:textStyle="bold"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
-        <!-- Bookmark Icon -->
         <ImageView
             android:id="@+id/ivBookmark"
-            android:layout_width="24dp"
-            android:layout_height="24dp"
-            android:layout_marginEnd="20dp"
-            android:src="@drawable/ic_bookmark_border"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_marginEnd="8dp"
             android:background="?attr/selectableItemBackgroundBorderless"
-            android:clickable="true"
-            android:focusable="true"
+            android:padding="8dp"
+            android:src="@drawable/ic_bookmark_border"
             app:layout_constraintBottom_toBottomOf="@id/tvDetailsScreen"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="@id/tvDetailsScreen" />
+            app:layout_constraintTop_toTopOf="@id/tvDetailsScreen"
+            app:tint="@color/on_background" />
 
-        <!-- Main Card Container -->
-        <androidx.cardview.widget.CardView
-            android:id="@+id/cvMainContainer"
+        <!-- Company Name -->
+        <TextView
+            android:id="@+id/tvCompanyName"
             android:layout_width="0dp"
-            android:layout_height="0dp"
-            android:layout_marginStart="16dp"
+            android:layout_height="wrap_content"
             android:layout_marginTop="24dp"
-            android:layout_marginEnd="16dp"
-            android:layout_marginBottom="16dp"
-            app:cardCornerRadius="16dp"
-            app:cardElevation="4dp"
-            app:layout_constraintBottom_toBottomOf="parent"
+            android:textColor="@color/on_background"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toEndOf="@id/guidelineEnd"
+            app:layout_constraintStart_toStartOf="@id/guidelineStart"
+            app:layout_constraintTop_toBottomOf="@id/tvDetailsScreen"
+            tools:text="Apple Inc." />
+
+        <!-- Hero Section: Price & Ticker -->
+        <TextView
+            android:id="@+id/tvCurrentPrice"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:textColor="@color/on_background"
+            android:textSize="48sp"
+            android:fontFamily="sans-serif-black"
+            app:layout_constraintStart_toStartOf="@+id/guidelineStart"
+            app:layout_constraintTop_toBottomOf="@id/tvCompanyName"
+            tools:text="$150.00" />
+
+        <TextView
+            android:id="@+id/tvStockSymbol"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
+            android:textColor="@color/on_surface_variant"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            app:layout_constraintStart_toStartOf="@+id/guidelineStart"
+            app:layout_constraintTop_toBottomOf="@id/tvCurrentPrice"
+            tools:text="AAPL" />
+
+        <TextView
+            android:id="@+id/tvStockType"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="4dp"
+            android:textColor="@color/on_surface_variant"
+            android:textSize="14sp"
+            app:layout_constraintBaseline_toBaselineOf="@id/tvStockSymbol"
+            app:layout_constraintStart_toEndOf="@id/tvStockSymbol"
+            tools:text="Common Stock" />
+
+        <TextView
+            android:id="@+id/tvExchange"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:textColor="@color/on_surface_variant"
+            android:textSize="14sp"
+            app:layout_constraintBaseline_toBaselineOf="@id/tvStockSymbol"
+            app:layout_constraintStart_toEndOf="@id/tvStockType"
+            tools:text="NASDAQ" />
+
+        <TextView
+            android:id="@+id/tvPriceChange"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            app:layout_constraintStart_toStartOf="@id/guidelineStart"
+            app:layout_constraintTop_toBottomOf="@id/tvStockSymbol"
+            tools:text="+1.25% (+$2.50)"
+            tools:textColor="@color/finance_positive" />
+
+        <!-- Chart Section -->
+        <com.google.android.material.card.MaterialCardView
+            android:id="@+id/cvChartContainer"
+            android:layout_width="0dp"
+            android:layout_height="280dp"
+            android:layout_marginTop="24dp"
+            app:cardElevation="0dp"
+            app:strokeWidth="0dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/tvDetailsScreen">
+            app:layout_constraintTop_toBottomOf="@id/tvPriceChange">
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:padding="20dp">
+                android:layout_height="match_parent">
 
-                <!-- Stock Info Group -->
-                <androidx.constraintlayout.widget.Group
-                    android:id="@+id/stockInfoGroup"
+                <com.github.mikephil.charting.charts.LineChart
+                    android:id="@+id/lineChart"
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_marginBottom="16dp"
+                    app:layout_constraintBottom_toTopOf="@id/llTimePeriods"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <LinearLayout
+                    android:id="@+id/llTimePeriods"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    app:constraint_referenced_ids="ivAppleLogo,tvCompanyName,tvStockSymbol,tvStockType,tvCurrentPrice,tvPriceChange" />
+                    android:layout_marginBottom="16dp"
+                    android:orientation="horizontal"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent">
 
-                <!-- Apple Logo -->
-                <ImageView
-                    android:id="@+id/ivAppleLogo"
-                    android:layout_width="40dp"
-                    android:layout_height="40dp"
-                    android:src="@drawable/ic_stock"
+                    <TextView
+                        android:id="@+id/btn1W"
+                        style="@style/TimePeriodButtonStyle"
+                        android:text="1W" />
+
+                    <TextView
+                        android:id="@+id/btn1M"
+                        style="@style/TimePeriodButtonStyle"
+                        android:text="1M" />
+
+                    <TextView
+                        android:id="@+id/btn3M"
+                        style="@style/TimePeriodButtonStyle"
+                        android:text="3M" />
+
+                    <TextView
+                        android:id="@+id/btn6M"
+                        style="@style/TimePeriodButtonStyle"
+                        android:text="6M" />
+
+                    <TextView
+                        android:id="@+id/btn1Y"
+                        style="@style/TimePeriodButtonStyle"
+                        android:text="1Y" />
+                </LinearLayout>
+            </androidx.constraintlayout.widget.ConstraintLayout>
+        </com.google.android.material.card.MaterialCardView>
+
+        <!-- About Section -->
+        <TextView
+            android:id="@+id/tvAboutTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="32dp"
+            android:text="About"
+            android:textColor="@color/on_background"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            app:layout_constraintStart_toStartOf="@+id/guidelineStart"
+            app:layout_constraintTop_toBottomOf="@id/cvChartContainer" />
+
+        <TextView
+            android:id="@+id/tvAboutDescription"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
+            android:lineSpacingExtra="4dp"
+            android:textColor="@color/on_surface_variant"
+            android:textSize="14sp"
+            app:layout_constraintEnd_toEndOf="@+id/guidelineEnd"
+            app:layout_constraintStart_toStartOf="@+id/guidelineStart"
+            app:layout_constraintTop_toBottomOf="@id/tvAboutTitle"
+            tools:text="Apple Inc. designs, manufactures, and markets smartphones, personal computers, tablets, wearables, and accessories worldwide." />
+
+        <LinearLayout
+            android:id="@+id/llTags"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:orientation="horizontal"
+            app:layout_constraintEnd_toEndOf="@+id/guidelineEnd"
+            app:layout_constraintStart_toStartOf="@+id/guidelineStart"
+            app:layout_constraintTop_toBottomOf="@id/tvAboutDescription">
+
+            <TextView
+                android:id="@+id/tvIndustryTag"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/tag_background"
+                android:paddingHorizontal="12dp"
+                android:paddingVertical="6dp"
+                android:textColor="@color/primary"
+                android:textSize="12sp"
+                android:textStyle="bold"
+                tools:text="Technology" />
+
+            <TextView
+                android:id="@+id/tvSectorTag"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:background="@drawable/tag_background"
+                android:paddingHorizontal="12dp"
+                android:paddingVertical="6dp"
+                android:textColor="@color/primary"
+                android:textSize="12sp"
+                android:textStyle="bold"
+                tools:text="Consumer Electronics" />
+        </LinearLayout>
+
+        <!-- Statistics Section -->
+        <com.google.android.material.card.MaterialCardView
+            android:id="@+id/cvStatsContainer"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="32dp"
+            app:cardElevation="0dp"
+            app:strokeColor="?attr/colorOutlineVariant"
+            app:strokeWidth="1dp"
+            app:cardCornerRadius="16dp"
+            app:layout_constraintEnd_toEndOf="@+id/guidelineEnd"
+            app:layout_constraintStart_toStartOf="@+id/guidelineStart"
+            app:layout_constraintTop_toBottomOf="@id/llTags">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="20dp">
+
+                <!-- Column 1 -->
+                <TextView
+                    android:id="@+id/tvMarketCapLabel"
+                    style="@style/StatLabelStyle"
+                    android:text="Market Cap"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
 
-                <!-- Company Name -->
-                <TextView
-                    android:id="@+id/tvCompanyName"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="12dp"
-                    android:fontFamily="@font/sf_pro_display_bold"
-                    android:text="Company Name"
-                    android:textColor="#000000"
-                    android:textSize="18sp"
-                    app:layout_constraintEnd_toStartOf="@id/tvCurrentPrice"
-                    app:layout_constraintStart_toEndOf="@id/ivAppleLogo"
-                    app:layout_constraintTop_toTopOf="@id/ivAppleLogo" />
-
-                <!-- Stock Symbol and Type -->
-                <TextView
-                    android:id="@+id/tvStockSymbol"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:fontFamily="@font/sf_pro_display_medium"
-                    android:text=""
-                    android:textColor="#666666"
-                    android:textSize="14sp"
-                    app:layout_constraintStart_toStartOf="@id/tvCompanyName"
-                    app:layout_constraintTop_toBottomOf="@id/tvCompanyName" />
-
-                <TextView
-                    android:id="@+id/tvStockType"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:fontFamily="@font/sf_pro_display_medium"
-                    android:text=""
-                    android:textColor="#666666"
-                    android:textSize="14sp"
-                    app:layout_constraintStart_toEndOf="@id/tvStockSymbol"
-                    app:layout_constraintTop_toTopOf="@id/tvStockSymbol" />
-
-                <TextView
-                    android:id="@+id/tvExchange"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="2dp"
-                    android:fontFamily="@font/sf_pro_display_medium"
-                    android:text=""
-                    android:textColor="#666666"
-                    android:textSize="14sp"
-                    app:layout_constraintStart_toStartOf="@id/tvStockSymbol"
-                    app:layout_constraintTop_toBottomOf="@id/tvStockSymbol" />
-
-                <!-- Current Price -->
-                <TextView
-                    android:id="@+id/tvCurrentPrice"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:fontFamily="@font/sf_pro_display_bold"
-                    android:text="Stock Price"
-                    android:textColor="#000000"
-                    android:textSize="18sp"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintTop_toTopOf="@id/ivAppleLogo" />
-
-                <!-- Price Change -->
-                <TextView
-                    android:id="@+id/tvPriceChange"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="4dp"
-                    android:fontFamily="@font/sf_pro_display_medium"
-                    android:text=""
-                    android:textColor="#4CAF50"
-                    android:textSize="14sp"
-                    app:layout_constraintEnd_toEndOf="@id/tvCurrentPrice"
-                    app:layout_constraintTop_toBottomOf="@id/tvCurrentPrice" />
-
-                <!-- Chart Container -->
-                <androidx.cardview.widget.CardView
-                    android:id="@+id/cvChartContainer"
-                    android:layout_width="0dp"
-                    android:layout_height="200dp"
-                    android:layout_marginTop="24dp"
-                    app:cardCornerRadius="8dp"
-                    app:cardElevation="2dp"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/ivAppleLogo">
-
-                    <androidx.constraintlayout.widget.ConstraintLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:layout_marginTop="10dp"
-                        android:padding="16dp">
-
-                        <!-- Chart -->
-                        <com.github.mikephil.charting.charts.LineChart
-                            android:id="@+id/lineChart"
-                            android:layout_width="0dp"
-                            android:layout_height="0dp"
-                            app:layout_constraintBottom_toTopOf="@id/timePeriodsGroup"
-                            app:layout_constraintEnd_toEndOf="parent"
-                            app:layout_constraintStart_toStartOf="parent"
-                            app:layout_constraintTop_toTopOf="parent" />
-
-                        <!-- Time Periods Group -->
-                        <androidx.constraintlayout.widget.Group
-                            android:id="@+id/timePeriodsGroup"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            app:constraint_referenced_ids="btn1W,btn1M,btn3M,btn6M,btn1Y" />
-
-                        <!-- Time Period Buttons -->
-                        <TextView
-                            android:id="@+id/btn1W"
-                            android:layout_width="32dp"
-                            android:layout_height="32dp"
-                            android:background="@drawable/time_period_selected_bg"
-                            android:fontFamily="@font/sf_pro_display_medium"
-                            android:gravity="center"
-                            android:text="1W"
-                            android:textColor="#FFFFFF"
-                            android:textSize="12sp"
-                            app:layout_constraintBottom_toBottomOf="parent"
-                            app:layout_constraintStart_toStartOf="parent" />
-
-                        <TextView
-                            android:id="@+id/btn1M"
-                            android:layout_width="32dp"
-                            android:layout_height="32dp"
-                            android:layout_marginStart="8dp"
-                            android:background="@drawable/time_period_unselected_bg"
-                            android:fontFamily="@font/sf_pro_display_medium"
-                            android:gravity="center"
-                            android:text="1M"
-                            android:textColor="#666666"
-                            android:textSize="12sp"
-                            app:layout_constraintBottom_toBottomOf="@id/btn1W"
-                            app:layout_constraintStart_toEndOf="@id/btn1W" />
-
-                        <TextView
-                            android:id="@+id/btn3M"
-                            android:layout_width="32dp"
-                            android:layout_height="32dp"
-                            android:layout_marginStart="8dp"
-                            android:background="@drawable/time_period_unselected_bg"
-                            android:fontFamily="@font/sf_pro_display_medium"
-                            android:gravity="center"
-                            android:text="3M"
-                            android:textColor="#666666"
-                            android:textSize="12sp"
-                            app:layout_constraintBottom_toBottomOf="@id/btn1W"
-                            app:layout_constraintStart_toEndOf="@id/btn1M" />
-
-                        <TextView
-                            android:id="@+id/btn6M"
-                            android:layout_width="32dp"
-                            android:layout_height="32dp"
-                            android:layout_marginStart="8dp"
-                            android:background="@drawable/time_period_unselected_bg"
-                            android:fontFamily="@font/sf_pro_display_medium"
-                            android:gravity="center"
-                            android:text="6M"
-                            android:textColor="#666666"
-                            android:textSize="12sp"
-                            app:layout_constraintBottom_toBottomOf="@id/btn1W"
-                            app:layout_constraintStart_toEndOf="@id/btn3M" />
-
-                        <TextView
-                            android:id="@+id/btn1Y"
-                            android:layout_width="32dp"
-                            android:layout_height="32dp"
-                            android:layout_marginStart="8dp"
-                            android:background="@drawable/time_period_unselected_bg"
-                            android:fontFamily="@font/sf_pro_display_medium"
-                            android:gravity="center"
-                            android:text="1Y"
-                            android:textColor="#666666"
-                            android:textSize="12sp"
-                            app:layout_constraintBottom_toBottomOf="@id/btn1W"
-                            app:layout_constraintStart_toEndOf="@id/btn6M" />
-
-                    </androidx.constraintlayout.widget.ConstraintLayout>
-
-                </androidx.cardview.widget.CardView>
-
-                <!-- About Section -->
-                <TextView
-                    android:id="@+id/tvAboutTitle"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="24dp"
-                    android:fontFamily="@font/sf_pro_display_bold"
-                    android:text="About Company"
-                    android:textColor="#000000"
-                    android:textSize="16sp"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/cvChartContainer" />
-
-                <!-- About Description -->
-                <TextView
-                    android:id="@+id/tvAboutDescription"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="8dp"
-                    android:fontFamily="@font/sf_pro_display_regular"
-                    android:lineSpacingExtra="2dp"
-                    android:text="Stock Description Not Available"
-                    android:textColor="#333333"
-                    android:textSize="14sp"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/tvAboutTitle" />
-
-                <!-- Industry and Sector Tags -->
-                <androidx.constraintlayout.widget.Group
-                    android:id="@+id/tagsGroup"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    app:constraint_referenced_ids="tvIndustryTag,tvSectorTag" />
-
-                <TextView
-                    android:id="@+id/tvIndustryTag"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="16dp"
-                    android:background="@drawable/tag_background"
-                    android:fontFamily="@font/sf_pro_display_medium"
-                    android:paddingHorizontal="12dp"
-                    android:paddingVertical="6dp"
-                    android:text="Industry NA"
-                    android:textColor="#8B4513"
-                    android:textSize="12sp"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/tvAboutDescription" />
-
-                <TextView
-                    android:id="@+id/tvSectorTag"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="8dp"
-                    android:background="@drawable/tag_background"
-                    android:fontFamily="@font/sf_pro_display_medium"
-                    android:paddingHorizontal="12dp"
-                    android:paddingVertical="6dp"
-                    android:text="Sector NA"
-                    android:textColor="#8B4513"
-                    android:textSize="12sp"
-                    app:layout_constraintStart_toEndOf="@id/tvIndustryTag"
-                    app:layout_constraintTop_toTopOf="@id/tvIndustryTag" />
-
-                <!-- Stock Statistics Group -->
-                <androidx.constraintlayout.widget.Group
-                    android:id="@+id/statsGroup"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    app:constraint_referenced_ids="tv52WeekLow,tvLowPrice,tv52WeekHigh,tvHighPrice,tvCurrentPriceStat,tvCurrentPriceValue,tvMarketCap,tvMarketCapValue,tvPERatio,tvPERatioValue,tvBeta,tvBetaValue,tvDividendYield,tvDividendYieldValue,tvProfitMargin,tvProfitMarginValue" />
-
-                <!-- 52 Week Low -->
-                <TextView
-                    android:id="@+id/tv52WeekLow"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="24dp"
-                    android:fontFamily="@font/sf_pro_display_medium"
-                    android:text="52 Week Low"
-                    android:textColor="#666666"
-                    android:textSize="12sp"
-                    app:layout_constraintEnd_toStartOf="@id/tvCurrentPriceStat"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/tvIndustryTag" />
-
-                <TextView
-                    android:id="@+id/tvLowPrice"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:fontFamily="@font/sf_pro_display_semibold"
-                    android:text=""
-                    android:textColor="#000000"
-                    android:textSize="14sp"
-                    app:layout_constraintEnd_toEndOf="@id/tv52WeekLow"
-                    app:layout_constraintStart_toStartOf="@id/tv52WeekLow"
-                    app:layout_constraintTop_toBottomOf="@id/tv52WeekLow" />
-
-                <!-- Current Price Stat -->
-                <TextView
-                    android:id="@+id/tvCurrentPriceStat"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:fontFamily="@font/sf_pro_display_medium"
-                    android:gravity="center"
-                    android:text="Current price"
-                    android:textColor="#666666"
-                    android:textSize="12sp"
-                    app:layout_constraintEnd_toStartOf="@id/tv52WeekHigh"
-                    app:layout_constraintStart_toEndOf="@id/tv52WeekLow"
-                    app:layout_constraintTop_toTopOf="@id/tv52WeekLow" />
-
-                <TextView
-                    android:id="@+id/tvCurrentPriceValue"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:fontFamily="@font/sf_pro_display_semibold"
-                    android:gravity="center"
-                    android:text=""
-                    android:textColor="#000000"
-                    android:textSize="14sp"
-                    app:layout_constraintEnd_toEndOf="@id/tvCurrentPriceStat"
-                    app:layout_constraintStart_toStartOf="@id/tvCurrentPriceStat"
-                    app:layout_constraintTop_toBottomOf="@id/tvCurrentPriceStat" />
-
-                <!-- 52 Week High -->
-                <TextView
-                    android:id="@+id/tv52WeekHigh"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:fontFamily="@font/sf_pro_display_medium"
-                    android:gravity="end"
-                    android:text="52 Week High"
-                    android:textColor="#666666"
-                    android:textSize="12sp"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toEndOf="@id/tvCurrentPriceStat"
-                    app:layout_constraintTop_toTopOf="@id/tv52WeekLow" />
-
-                <TextView
-                    android:id="@+id/tvHighPrice"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:fontFamily="@font/sf_pro_display_semibold"
-                    android:gravity="end"
-                    android:text=""
-                    android:textColor="#000000"
-                    android:textSize="14sp"
-                    app:layout_constraintEnd_toEndOf="@id/tv52WeekHigh"
-                    app:layout_constraintStart_toStartOf="@id/tv52WeekHigh"
-                    app:layout_constraintTop_toBottomOf="@id/tv52WeekHigh" />
-
-                <!-- Market Cap -->
-                <TextView
-                    android:id="@+id/tvMarketCap"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="16dp"
-                    android:fontFamily="@font/sf_pro_display_medium"
-                    android:text="Market Cap"
-                    android:textColor="#666666"
-                    android:textSize="12sp"
-                    app:layout_constraintEnd_toStartOf="@id/tvPERatio"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/tvLowPrice" />
-
                 <TextView
                     android:id="@+id/tvMarketCapValue"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:fontFamily="@font/sf_pro_display_semibold"
-                    android:text=""
-                    android:textColor="#000000"
-                    android:textSize="14sp"
-                    app:layout_constraintEnd_toEndOf="@id/tvMarketCap"
-                    app:layout_constraintStart_toStartOf="@id/tvMarketCap"
-                    app:layout_constraintTop_toBottomOf="@id/tvMarketCap" />
+                    style="@style/StatValueStyle"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/tvMarketCapLabel"
+                    tools:text="2.8T" />
 
-                <!-- P/E Ratio -->
                 <TextView
-                    android:id="@+id/tvPERatio"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:fontFamily="@font/sf_pro_display_medium"
-                    android:gravity="center"
+                    android:id="@+id/tvPERatioLabel"
+                    style="@style/StatLabelStyle"
+                    android:layout_marginTop="20dp"
                     android:text="P/E Ratio"
-                    android:textColor="#666666"
-                    android:textSize="12sp"
-                    app:layout_constraintEnd_toStartOf="@id/tvBeta"
-                    app:layout_constraintStart_toEndOf="@id/tvMarketCap"
-                    app:layout_constraintTop_toTopOf="@id/tvMarketCap" />
-
-                <TextView
-                    android:id="@+id/tvPERatioValue"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:fontFamily="@font/sf_pro_display_semibold"
-                    android:gravity="center"
-                    android:text=""
-                    android:textColor="#000000"
-                    android:textSize="14sp"
-                    app:layout_constraintEnd_toEndOf="@id/tvPERatio"
-                    app:layout_constraintStart_toStartOf="@id/tvPERatio"
-                    app:layout_constraintTop_toBottomOf="@id/tvPERatio" />
-
-                <!-- Beta -->
-                <TextView
-                    android:id="@+id/tvBeta"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:fontFamily="@font/sf_pro_display_medium"
-                    android:gravity="end"
-                    android:text="Beta"
-                    android:textColor="#666666"
-                    android:textSize="12sp"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toEndOf="@id/tvPERatio"
-                    app:layout_constraintTop_toTopOf="@id/tvMarketCap" />
-
-                <TextView
-                    android:id="@+id/tvBetaValue"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:fontFamily="@font/sf_pro_display_semibold"
-                    android:gravity="end"
-                    android:text=""
-                    android:textColor="#000000"
-                    android:textSize="14sp"
-                    app:layout_constraintEnd_toEndOf="@id/tvBeta"
-                    app:layout_constraintStart_toStartOf="@id/tvBeta"
-                    app:layout_constraintTop_toBottomOf="@id/tvBeta" />
-
-                <!-- Dividend Yield -->
-                <TextView
-                    android:id="@+id/tvDividendYield"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="16dp"
-                    android:fontFamily="@font/sf_pro_display_medium"
-                    android:text="Dividend Yield"
-                    android:textColor="#666666"
-                    android:textSize="12sp"
-                    app:layout_constraintEnd_toStartOf="@id/tvProfitMargin"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/tvMarketCapValue" />
 
                 <TextView
-                    android:id="@+id/tvDividendYieldValue"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:fontFamily="@font/sf_pro_display_semibold"
-                    android:text=""
-                    android:textColor="#000000"
-                    android:textSize="14sp"
-                    app:layout_constraintEnd_toEndOf="@id/tvDividendYield"
-                    app:layout_constraintStart_toStartOf="@id/tvDividendYield"
-                    app:layout_constraintTop_toBottomOf="@id/tvDividendYield" />
+                    android:id="@+id/tvPERatioValue"
+                    style="@style/StatValueStyle"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/tvPERatioLabel"
+                    tools:text="28.5" />
 
-                <!-- Profit Margin -->
                 <TextView
-                    android:id="@+id/tvProfitMargin"
-                    android:layout_width="0dp"
+                    android:id="@+id/tvBetaLabel"
+                    style="@style/StatLabelStyle"
+                    android:layout_marginTop="20dp"
+                    android:text="Beta"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/tvPERatioValue" />
+
+                <TextView
+                    android:id="@+id/tvBetaValue"
+                    style="@style/StatValueStyle"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/tvBetaLabel"
+                    tools:text="1.2" />
+
+                <TextView
+                    android:id="@+id/tv52WeekLowLabel"
+                    style="@style/StatLabelStyle"
+                    android:layout_marginTop="20dp"
+                    android:text="52 Week Low"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/tvBetaValue" />
+
+                <TextView
+                    android:id="@+id/tvLowPrice"
+                    style="@style/StatValueStyle"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/tv52WeekLowLabel"
+                    tools:text="$124.17" />
+
+                <!-- Column 2 -->
+                <androidx.constraintlayout.widget.Guideline
+                    android:id="@+id/guidelineVerticalCenter"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:fontFamily="@font/sf_pro_display_medium"
-                    android:gravity="end"
+                    android:orientation="vertical"
+                    app:layout_constraintGuide_percent="0.5" />
+
+                <TextView
+                    android:id="@+id/tvDividendYieldLabel"
+                    style="@style/StatLabelStyle"
+                    android:text="Div. Yield"
+                    app:layout_constraintStart_toStartOf="@id/guidelineVerticalCenter"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <TextView
+                    android:id="@+id/tvDividendYieldValue"
+                    style="@style/StatValueStyle"
+                    app:layout_constraintStart_toStartOf="@id/guidelineVerticalCenter"
+                    app:layout_constraintTop_toBottomOf="@id/tvDividendYieldLabel"
+                    tools:text="0.58%" />
+
+                <TextView
+                    android:id="@+id/tvProfitMarginLabel"
+                    style="@style/StatLabelStyle"
+                    android:layout_marginTop="20dp"
                     android:text="Profit Margin"
-                    android:textColor="#666666"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toEndOf="@id/tvDividendYield"
-                    app:layout_constraintTop_toTopOf="@id/tvDividendYield" />
+                    app:layout_constraintStart_toStartOf="@id/guidelineVerticalCenter"
+                    app:layout_constraintTop_toBottomOf="@id/tvDividendYieldValue" />
 
                 <TextView
                     android:id="@+id/tvProfitMarginValue"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:fontFamily="@font/sf_pro_display_semibold"
-                    android:gravity="end"
-                    android:text=""
-                    android:textColor="#000000"
-                    android:textSize="14sp"
-                    app:layout_constraintEnd_toEndOf="@id/tvProfitMargin"
-                    app:layout_constraintStart_toStartOf="@id/tvProfitMargin"
-                    app:layout_constraintTop_toBottomOf="@id/tvProfitMargin" />
+                    style="@style/StatValueStyle"
+                    app:layout_constraintStart_toStartOf="@id/guidelineVerticalCenter"
+                    app:layout_constraintTop_toBottomOf="@id/tvProfitMarginLabel"
+                    tools:text="25.3%" />
+
+                <TextView
+                    android:id="@+id/tvCurrentPriceStat"
+                    style="@style/StatLabelStyle"
+                    android:layout_marginTop="20dp"
+                    android:text="Prev Close"
+                    app:layout_constraintStart_toStartOf="@id/guidelineVerticalCenter"
+                    app:layout_constraintTop_toBottomOf="@id/tvProfitMarginValue" />
+
+                <TextView
+                    android:id="@+id/tvCurrentPriceValue"
+                    style="@style/StatValueStyle"
+                    app:layout_constraintStart_toStartOf="@id/guidelineVerticalCenter"
+                    app:layout_constraintTop_toBottomOf="@id/tvCurrentPriceStat"
+                    tools:text="$148.50" />
+
+                <TextView
+                    android:id="@+id/tv52WeekHighLabel"
+                    style="@style/StatLabelStyle"
+                    android:layout_marginTop="20dp"
+                    android:text="52 Week High"
+                    app:layout_constraintStart_toStartOf="@id/guidelineVerticalCenter"
+                    app:layout_constraintTop_toBottomOf="@id/tvCurrentPriceValue" />
+
+                <TextView
+                    android:id="@+id/tvHighPrice"
+                    style="@style/StatValueStyle"
+                    app:layout_constraintStart_toStartOf="@id/guidelineVerticalCenter"
+                    app:layout_constraintTop_toBottomOf="@id/tv52WeekHighLabel"
+                    tools:text="$198.23" />
 
             </androidx.constraintlayout.widget.ConstraintLayout>
+        </com.google.android.material.card.MaterialCardView>
 
-        </androidx.cardview.widget.CardView>
+        <!-- Guidelines for consistent padding -->
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/guidelineStart"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintGuide_begin="20dp" />
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/guidelineEnd"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintGuide_end="20dp" />
+
     </androidx.constraintlayout.widget.ConstraintLayout>
-
 </ScrollView>

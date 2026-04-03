@@ -4,4 +4,33 @@
         <item name="cornerFamily">rounded</item>
         <item name="cornerSize">25dp</item>
     </style>
+
+    <!-- Details Screen Statistics Styles -->
+    <style name="StatLabelStyle">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textColor">@color/on_surface_variant</item>
+        <item name="android:textSize">12sp</item>
+        <item name="android:fontFamily">sans-serif-medium</item>
+    </style>
+
+    <style name="StatValueStyle">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_marginTop">4dp</item>
+        <item name="android:textColor">@color/on_surface</item>
+        <item name="android:textSize">16sp</item>
+        <item name="android:fontFamily">sans-serif-medium</item>
+    </style>
+
+    <style name="TimePeriodButtonStyle">
+        <item name="android:layout_width">48dp</item>
+        <item name="android:layout_height">32dp</item>
+        <item name="android:layout_marginHorizontal">4dp</item>
+        <item name="android:gravity">center</item>
+        <item name="android:textColor">@color/on_surface_variant</item>
+        <item name="android:textSize">12sp</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:background">?attr/selectableItemBackground</item>
+    </style>
 </resources>

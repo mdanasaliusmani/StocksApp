@@ -7,7 +7,6 @@ import android.util.Log
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.viewModelScope
 import com.SDE.stocksapp.StocksApplication
 import com.SDE.stocksapp.models.DailyResponse
@@ -19,11 +18,10 @@ import com.SDE.stocksapp.models.Watchlist
 import com.SDE.stocksapp.models.WatchlistStockCrossRef
 import com.SDE.stocksapp.models.WeeklyResponse
 import com.SDE.stocksapp.repository.StockRepository
-import com.example.newsapp.util.Constants
-import com.example.newsapp.util.Resource
+import com.SDE.stocksapp.util.Constants
+import com.SDE.stocksapp.util.Resource
 import com.github.mikephil.charting.data.Entry
 import kotlinx.coroutines.launch
-import retrofit2.HttpException
 import retrofit2.Response
 import java.io.IOException
 

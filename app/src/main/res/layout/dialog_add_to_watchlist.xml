@@ -1,112 +1,96 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="@drawable/bottom_dialog_background"
-    android:padding="24dp">
+    app:cardCornerRadius="28dp"
+    app:cardElevation="0dp"
+    app:strokeWidth="0dp">
 
-    <!-- Dialog Title -->
-    <TextView
-        android:id="@+id/tvDialogTitle"
-        android:layout_width="wrap_content"
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:fontFamily="@font/sf_pro_display_bold"
-        android:text="Add to Watchlist"
-        android:textColor="#000000"
-        android:textSize="20sp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        android:padding="24dp">
 
-    <!-- New Watchlist Input Container -->
-    <androidx.cardview.widget.CardView
-        android:id="@+id/cvNewWatchlistContainer"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="24dp"
-        android:layout_marginEnd="12dp"
-        app:cardCornerRadius="8dp"
-        app:cardElevation="2dp"
-        app:layout_constraintEnd_toStartOf="@id/btnAddWatchlist"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/tvDialogTitle">
+        <!-- Dialog Title -->
+        <TextView
+            android:id="@+id/tvDialogTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Add to Watchlist"
+            android:textAppearance="?attr/textAppearanceTitleLarge"
+            android:textStyle="bold"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
-        <EditText
-            android:id="@+id/etNewWatchlistName"
-            android:layout_width="match_parent"
-            android:layout_height="48dp"
-            android:background="@android:color/transparent"
-            android:fontFamily="@font/sf_pro_display_regular"
+        <!-- New Watchlist Input Container -->
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/tilNewWatchlist"
+            style="@style/Widget.Material3.TextInputLayout.OutlinedBox"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:layout_marginEnd="12dp"
             android:hint="New Watchlist Name"
-            android:paddingHorizontal="16dp"
-            android:textColor="#000000"
-            android:textColorHint="#999999"
-            android:textSize="16sp" />
+            app:layout_constraintEnd_toStartOf="@id/btnAddWatchlist"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tvDialogTitle">
 
-    </androidx.cardview.widget.CardView>
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/etNewWatchlistName"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="textCapWords" />
 
-    <!-- Add Button -->
-    <Button
-        android:id="@+id/btnAddWatchlist"
-        android:layout_width="wrap_content"
-        android:layout_height="48dp"
-        android:background="@drawable/add_button_background"
-        android:fontFamily="@font/sf_pro_display_semibold"
-        android:text="Add"
-        android:textAllCaps="false"
-        android:textColor="#FFFFFF"
-        android:textSize="16sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="@id/cvNewWatchlistContainer" />
+        </com.google.android.material.textfield.TextInputLayout>
 
-    <!-- Existing Watchlists Container -->
-    <androidx.cardview.widget.CardView
-        android:id="@+id/cvExistingWatchlists"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        app:cardCornerRadius="8dp"
-        app:cardElevation="2dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/cvNewWatchlistContainer">
+        <!-- Add Button -->
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btnAddWatchlist"
+            android:layout_width="wrap_content"
+            android:layout_height="0dp"
+            android:text="Add"
+            app:layout_constraintBottom_toBottomOf="@id/tilNewWatchlist"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@id/tilNewWatchlist" />
 
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:id="@+id/cvExistingWatchlistsContainer"
+        <!-- Existing Watchlists Label -->
+        <TextView
+            android:id="@+id/tvExistingLabel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="24dp"
+            android:text="Your Watchlists"
+            android:textAppearance="?attr/textAppearanceTitleSmall"
+            android:textColor="@color/on_surface_variant"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tilNewWatchlist" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rvExistingWatchlists"
+            android:layout_width="0dp"
+            android:layout_height="240dp"
+            android:layout_marginTop="8dp"
+            android:clipToPadding="false"
+            android:paddingVertical="4dp"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tvExistingLabel"
+            tools:listitem="@layout/watchlist_checkbox" />
+
+        <!-- Add Stock Button -->
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btnAddStock"
             android:layout_width="match_parent"
-            android:layout_height="200dp"
-            android:padding="16dp">
+            android:layout_height="wrap_content"
+            android:layout_marginTop="24dp"
+            android:padding="12dp"
+            android:text="Save Selection"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/rvExistingWatchlists" />
 
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/rvExistingWatchlists"
-                android:layout_width="0dp"
-                android:layout_height="0dp"
-                android:clipToPadding="false"
-                android:padding="8dp"
-                app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"/>
-
-        </androidx.constraintlayout.widget.ConstraintLayout>
-
-    </androidx.cardview.widget.CardView>
-
-    <!-- Add Stock Button -->
-    <Button
-        android:id="@+id/btnAddStock"
-        android:layout_width="0dp"
-        android:layout_height="48dp"
-        android:layout_marginTop="24dp"
-        android:background="@drawable/primary_button_background"
-        android:fontFamily="@font/sf_pro_display_semibold"
-        android:text="Add Stock"
-        android:textAllCaps="false"
-        android:textColor="#FFFFFF"
-        android:textSize="16sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/cvExistingWatchlists" />
-
-</androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</com.google.android.material.card.MaterialCardView>

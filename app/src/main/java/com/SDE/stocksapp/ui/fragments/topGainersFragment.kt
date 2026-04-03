@@ -12,7 +12,7 @@ import com.SDE.stocksapp.databinding.FragmentTopGainersBinding
 import com.SDE.stocksapp.models.Stock
 import com.SDE.stocksapp.ui.StockViewModel
 import com.SDE.stocksapp.ui.StocksActivity
-import com.example.newsapp.util.Resource
+import com.SDE.stocksapp.util.Resource
 
 class topGainersFragment : Fragment(R.layout.fragment_top_gainers) {
 

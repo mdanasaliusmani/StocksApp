@@ -1,20 +1,13 @@
 package com.SDE.stocksapp.ui.fragments
 
-import android.animation.ObjectAnimator
 import android.os.Bundle
 import android.util.Log
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
-import android.view.animation.AccelerateDecelerateInterpolator
-import android.widget.CheckBox
 import android.widget.Toast
 import androidx.core.content.ContextCompat
-import androidx.core.view.children
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.github.mikephil.charting.charts.LineChart
 import com.github.mikephil.charting.components.XAxis
 import com.github.mikephil.charting.data.Entry
 import com.github.mikephil.charting.data.LineData
@@ -24,13 +17,12 @@ import com.SDE.stocksapp.R
 import com.SDE.stocksapp.adapters.WatchlistCheckboxAdapter
 import com.SDE.stocksapp.databinding.FragmentDetailsBinding
 import com.SDE.stocksapp.databinding.DialogAddToWatchlistBinding
-import com.SDE.stocksapp.databinding.FragmentHomeBinding
-import com.SDE.stocksapp.models.Stock
-import com.SDE.stocksapp.models.Watchlist
 import com.SDE.stocksapp.ui.StockViewModel
 import com.SDE.stocksapp.ui.StocksActivity
-import com.example.newsapp.util.Constants
-import com.example.newsapp.util.Resource
+import com.SDE.stocksapp.util.Constants
+import com.SDE.stocksapp.util.Resource
+import com.SDE.stocksapp.util.formatPercentage
+import com.SDE.stocksapp.util.formatPrice
 
 class detailsFragment : Fragment(R.layout.fragment_details) {
 
@@ -59,33 +51,31 @@ class detailsFragment : Fragment(R.layout.fragment_details) {
                         if(stockDetailsResponse.Symbol != null) {
                             binding.apply {
                                 tvCompanyName.text = stockDetailsResponse.Name
-                                tvStockSymbol.text = "${stockDetailsResponse.Symbol} ,"
+                                tvStockSymbol.text = stockDetailsResponse.Symbol
                                 tvStockType.text = stockDetailsResponse.AssetType
                                 tvExchange.text = stockDetailsResponse.Exchange
-                                tvCurrentPrice.text = "$${args.stock.price}"
-                                tvPriceChange.text = args.stock.change_percentage
+                                tvCurrentPrice.text = args.stock.price.formatPrice()
+                                tvPriceChange.text = args.stock.change_percentage.formatPercentage()
                                 tvAboutTitle.text = "About ${stockDetailsResponse.Name}"
                                 tvAboutDescription.text = stockDetailsResponse.Description
-                                tvIndustryTag.text = "Industry: ${stockDetailsResponse.Industry}"
-                                tvSectorTag.text = "Sector: ${stockDetailsResponse.Sector}"
-                                tvLowPrice.text = "$${stockDetailsResponse.`52WeekLow`}"
-                                tvHighPrice.text = "$${stockDetailsResponse.`52WeekHigh`}"
-                                tvCurrentPriceStat.text = "Current Price: $${args.stock.price}"
-                                tvMarketCapValue.text = "$${stockDetailsResponse.MarketCapitalization}"
-                                tvPERatioValue.text = "${stockDetailsResponse.PERatio}"
-                                tvBetaValue.text = "${stockDetailsResponse.Beta}"
-                                tvDividendYieldValue.text = "${stockDetailsResponse.DividendYield}"
-                                tvProfitMarginValue.text = "${stockDetailsResponse.ProfitMargin}"
-                                if(args.stock.change_percentage!="None")
-                                {
-                                    val percentage = args.stock.change_percentage.substring(0,args.stock.change_percentage.length-1).toDoubleOrNull() ?: 0.0
-                                    tvPriceChange.setTextColor(
-                                        ContextCompat.getColor(requireContext(),
-                                            if (percentage>0) R.color.accent_green else R.color.accent_red)
-                                    )
-                                }
+                                tvIndustryTag.text = stockDetailsResponse.Industry
+                                tvSectorTag.text = stockDetailsResponse.Sector
+                                tvLowPrice.text = stockDetailsResponse.`52WeekLow`.formatPrice()
+                                tvHighPrice.text = stockDetailsResponse.`52WeekHigh`.formatPrice()
+                                tvCurrentPriceStat.text = "Current Price"
+                                tvCurrentPriceValue.text = args.stock.price.formatPrice()
+                                tvMarketCapValue.text = stockDetailsResponse.MarketCapitalization
+                                tvPERatioValue.text = stockDetailsResponse.PERatio
+                                tvBetaValue.text = stockDetailsResponse.Beta
+                                tvDividendYieldValue.text = stockDetailsResponse.DividendYield.formatPercentage()
+                                tvProfitMarginValue.text = stockDetailsResponse.ProfitMargin.formatPercentage()
+                                
+                                val changePercent = args.stock.change_percentage.replace("%", "").toDoubleOrNull() ?: 0.0
+                                tvPriceChange.setTextColor(
+                                    ContextCompat.getColor(requireContext(),
+                                        if (changePercent >= 0) R.color.finance_positive else R.color.finance_negative)
+                                )
                             }
-
                         }
                     }
                 }

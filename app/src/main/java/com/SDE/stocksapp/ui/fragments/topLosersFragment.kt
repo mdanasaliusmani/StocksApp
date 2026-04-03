@@ -12,7 +12,7 @@ import com.SDE.stocksapp.databinding.FragmentTopLosersBinding
 import com.SDE.stocksapp.models.Stock
 import com.SDE.stocksapp.ui.StockViewModel
 import com.SDE.stocksapp.ui.StocksActivity
-import com.example.newsapp.util.Resource
+import com.SDE.stocksapp.util.Resource
 
 class topLosersFragment : Fragment(R.layout.fragment_top_losers) {
 
@@ -36,14 +36,13 @@ class topLosersFragment : Fragment(R.layout.fragment_top_losers) {
                 is Resource.Success -> {
                     response.data?.let { gainersLosersResponse ->
                         if (gainersLosersResponse.top_losers.isNotEmpty()) {
-                            losers = gainersLosersResponse.top_losers.map { topGainer ->
+                            losers = gainersLosersResponse.top_losers.map { topLoser ->
                                 Stock(
-                                    ticker = topGainer.ticker,
-                                    change_amount = topGainer.change_amount,
-                                    change_percentage = topGainer.change_percentage,
-                                    price = topGainer.price,
-                                    volume = topGainer.volume,
-//                                    urlToImage = null
+                                    ticker = topLoser.ticker,
+                                    change_amount = topLoser.change_amount,
+                                    change_percentage = topLoser.change_percentage,
+                                    price = topLoser.price,
+                                    volume = topLoser.volume,
                                 )
                             } as MutableList<Stock>
                             stockAdapter.differ.submitList(losers)
@@ -76,7 +75,7 @@ class topLosersFragment : Fragment(R.layout.fragment_top_losers) {
 
     fun setupRecyclerView() {
         stockAdapter = GenericStockAdapter()
-        binding.rvTopGainers.apply {
+        binding.rvTopLosers.apply {
             adapter = stockAdapter
             setHasFixedSize(true)
         }

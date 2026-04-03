@@ -5,7 +5,7 @@ import com.SDE.stocksapp.models.GainerLoserApiResponse
 import com.SDE.stocksapp.models.IntradayResponse
 import com.SDE.stocksapp.models.StockDetailsResponse
 import com.SDE.stocksapp.models.WeeklyResponse
-import com.example.newsapp.util.Constants.Companion.API_KEY
+import com.SDE.stocksapp.util.Constants.Companion.API_KEY
 import retrofit2.Response
 import retrofit2.http.GET
 import retrofit2.http.Query
