@@ -141,5 +141,4 @@ class homeFragment : Fragment(R.layout.fragment_home) {
             setHasFixedSize(true)
         }
     }
-
 }
